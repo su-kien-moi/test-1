@@ -77,14 +77,13 @@
     text-align: center; pointer-events: none;
   }
   .textTrack.running {
-    animation: rise var(--dur, 300s) linear infinite;
+    animation: rise var(--dur, 200s) linear infinite;
   }
   @keyframes rise {
     from { transform: translateY(0); }
     to   { transform: translateY(calc(-100% - 100vh)); }
   }
 
-  /* Tạm dừng mọi thứ cho đến khi bấm nút */
   body:not(.started) .textTrack.running { animation-play-state: paused; }
   body:not(.started) .lantern,
   body:not(.started) .lantern span     { animation-play-state: paused; }
@@ -211,9 +210,7 @@
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
-  .startBtn:active {
-    transform: scale(.95);
-  }
+  .startBtn:active { transform: scale(.95); }
   @media (hover: hover) {
     .startBtn:hover {
       transform: scale(1.08);
@@ -244,7 +241,7 @@
     50%      { opacity: 1; }
   }
 
-  /* ===== NÚT TẮT NHẠC (góc phải trên) ===== */
+  /* ===== NÚT TẮT NHẠC ===== */
   .musicBtn {
     position: fixed; top: 14px; right: 14px; z-index: 999;
     width: 46px; height: 46px;
@@ -300,7 +297,6 @@
     <h2 class="end">HAPPY TEACHER'S DAY 20/11</h2>
   </div>
 
-  <!-- ============ MÀN HÌNH MỞ ĐẦU ============ -->
   <div class="startOverlay" id="startOverlay">
     <div class="startContent">
       <button class="startBtn" id="startBtn" type="button" aria-label="Bắt đầu">
@@ -316,17 +312,15 @@
     </div>
   </div>
 
-  <!-- Nút bật/tắt nhạc (hiện sau khi bắt đầu) -->
   <button class="musicBtn" id="musicBtn" type="button" aria-label="Bật/tắt nhạc">🔊</button>
 
-  <!-- NHẠC NỀN — dùng URL tuyệt đối để chạy được trên iPhone/Android/PC -->
   <audio id="bgMusic" loop playsinline preload="none" crossorigin="anonymous">
     <source src="https://su-kien-moi.github.io/test-1/music.mp3" type="audio/mpeg">
   </audio>
 
 <script>
   /* ============================================================
-     100 DÒNG VĂN BẢN — sửa nội dung tại đây
+     100 DÒNG VĂN BẢN
      ============================================================ */
   const LINES = [
     "Kính chúc quý thầy cô luôn mạnh khỏe, bình an và tràn đầy nhiệt huyết với nghề!",
@@ -431,12 +425,10 @@
     "HAPPY TEACHER'S DAY – 20/11!"
   ];
 
-  /* ---------- Đổ 100 dòng vào trang ---------- */
   (function renderLines() {
     const container = document.getElementById('lines');
     const frag = document.createDocumentFragment();
     const bigIdx = new Set([0, 49, 98, 99]);
-
     LINES.forEach((text, i) => {
       const p = document.createElement('p');
       p.textContent = text;
@@ -447,10 +439,10 @@
     container.appendChild(frag);
   })();
 
-  /* ---------- Tự động tính tốc độ chạy theo độ dài văn bản ---------- */
+  /* ---------- Tốc độ chữ chạy: 45 = NHANH (cũ là 28) ---------- */
   (function autoSpeed() {
     const track = document.getElementById('textTrack');
-    const SPEED_PX_PER_SEC = 28;
+    const SPEED_PX_PER_SEC = 45;   // 👈 ĐÃ TĂNG TỪ 28 → 45
 
     function apply() {
       const travel = track.scrollHeight + window.innerHeight;
@@ -468,7 +460,6 @@
         requestAnimationFrame(apply);
       }, 200);
     });
-    // iOS: tính lại khi xoay màn hình
     window.addEventListener('orientationchange', () => {
       setTimeout(() => {
         track.classList.remove('running');
@@ -478,7 +469,6 @@
     });
   })();
 
-  /* ---------- 160 ngôi sao nền ---------- */
   (function createStars() {
     const sky = document.getElementById('stars');
     const frag = document.createDocumentFragment();
@@ -497,7 +487,7 @@
     sky.appendChild(frag);
   })();
 
-  /* ---------- 100 bông hoa bay liên tục, lệch nhịp ---------- */
+  /* ---------- Hoa bay: 7s–16s = NHANH (cũ là 10s–24s) ---------- */
   (function createLanterns() {
     const box = document.getElementById('lanterns');
     const TOTAL = 100;
@@ -511,7 +501,7 @@
       el.appendChild(span);
 
       const size     = 14 + Math.random() * 26;
-      const duration = 10 + Math.random() * 14;
+      const duration = 7 + Math.random() * 9;   // 👈 ĐÃ TĂNG TỐC (7s–16s)
       const delay    = -(Math.random() * duration);
       const drift    = (Math.random() * 2 - 1) * 110;
       const rotate   = (Math.random() * 2 - 1) * 70;
@@ -536,22 +526,19 @@
   })();
 
   /* ============================================================
-     MÀN HÌNH MỞ ĐẦU + NHẠC — ĐÃ TỐI ƯU CHO iOS / ANDROID / PC
+     MÀN HÌNH MỞ ĐẦU + NHẠC — TỐI ƯU iOS / ANDROID / PC
      ============================================================ */
   (function startScreen() {
-    const overlay = document.getElementById('startOverlay');
-    const btn     = document.getElementById('startBtn');
-    const audio   = document.getElementById('bgMusic');
+    const overlay  = document.getElementById('startOverlay');
+    const btn      = document.getElementById('startBtn');
+    const audio    = document.getElementById('bgMusic');
     const musicBtn = document.getElementById('musicBtn');
-    const body    = document.body;
+    const body     = document.body;
 
     let started = false;
-
-    // iOS: volume có thể read-only → wrap try/catch
     try { audio.volume = 0.6; } catch (e) {}
 
     function playMusic() {
-      // iOS yêu cầu: load() rồi play() ngay trong sự kiện chạm
       try { audio.load(); } catch (e) {}
       const p = audio.play();
       if (p && typeof p.then === 'function') {
@@ -567,32 +554,25 @@
     }
 
     function start(e) {
-      // Chống double-fire (click + touchend cùng chạy)
       if (started) return;
       started = true;
-
-      // Ngăn sự kiện lan ra ngoài
       if (e && e.cancelable) e.preventDefault();
 
       body.classList.add('started');
       overlay.classList.add('hidden');
       musicBtn.classList.add('show');
 
-      // Gọi play() TRỰC TIẾP trong handler, không setTimeout
       playMusic();
 
-      // Gỡ listener để không chạy lại
       btn.removeEventListener('click', start);
       btn.removeEventListener('touchend', start);
       overlay.removeEventListener('click', start);
     }
 
-    // Gắn cả click (PC) và touchend (mobile)
     btn.addEventListener('click', start);
     btn.addEventListener('touchend', start);
     overlay.addEventListener('click', start);
 
-    // Nút bật/tắt nhạc
     musicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       if (audio.paused) {
