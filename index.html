@@ -2,7 +2,9 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#05060f">
 <title>Chúc Mừng Ngày Nhà Giáo Việt Nam 20/11 🌷</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -11,6 +13,10 @@
     height: 100%;
     overflow: hidden;
     background: #05060f;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   body {
@@ -18,6 +24,7 @@
                  "Microsoft YaHei", "Noto Sans SC", sans-serif;
     background: radial-gradient(circle at 50% 115%, #2b1a3d 0%, #140f26 45%, #05060f 100%);
     position: relative;
+    touch-action: manipulation;
   }
 
   /* ================= NỀN SAO ================= */
@@ -77,14 +84,10 @@
     to   { transform: translateY(calc(-100% - 100vh)); }
   }
 
-  /* ===== TẠM DỪNG MỌI THỨ CHO ĐẾN KHI BẤM NÚT ===== */
-  body:not(.started) .textTrack.running {
-    animation-play-state: paused;
-  }
+  /* Tạm dừng mọi thứ cho đến khi bấm nút */
+  body:not(.started) .textTrack.running { animation-play-state: paused; }
   body:not(.started) .lantern,
-  body:not(.started) .lantern span {
-    animation-play-state: paused;
-  }
+  body:not(.started) .lantern span     { animation-play-state: paused; }
 
   .textTrack h1 {
     font-size: clamp(42px, 11vw, 110px);
@@ -168,16 +171,14 @@
 
   /* ================= MÀN HÌNH MỞ ĐẦU ================= */
   .startOverlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
+    position: fixed; inset: 0; z-index: 1000;
     background: rgba(5, 6, 15, .92);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    display: grid;
-    place-items: center;
+    display: flex; align-items: center; justify-content: center;
     cursor: pointer;
     transition: opacity .7s ease, visibility .7s ease;
+    -webkit-tap-highlight-color: transparent;
   }
   .startOverlay.hidden {
     opacity: 0;
@@ -186,63 +187,89 @@
   }
 
   .startContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
     gap: 26px;
+    pointer-events: none;
   }
 
-  /* Nút tròn ở giữa */
   .startBtn {
-    width: 130px;
-    height: 130px;
+    width: 130px; height: 130px;
     border-radius: 50%;
     border: 2px solid rgba(255, 217, 122, .55);
     background: radial-gradient(circle at 30% 30%,
                 rgba(255, 217, 122, .18),
                 rgba(30, 20, 50, .9));
     cursor: pointer;
-    display: grid;
-    place-items: center;
+    display: flex; align-items: center; justify-content: center;
     box-shadow: 0 0 40px rgba(255, 180, 90, .4);
     animation: pulseStart 2.2s ease-in-out infinite;
     transition: transform .25s ease, box-shadow .3s ease;
-  }
-  .startBtn:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 70px rgba(255, 180, 90, .85);
+    pointer-events: auto;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   .startBtn:active {
     transform: scale(.95);
   }
-  .startBtn:focus-visible {
-    outline: 2px solid #ffd97a;
-    outline-offset: 8px;
+  @media (hover: hover) {
+    .startBtn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 70px rgba(255, 180, 90, .85);
+    }
   }
   @keyframes pulseStart {
     0%, 100% { box-shadow: 0 0 40px rgba(255, 180, 90, .4); }
     50%      { box-shadow: 0 0 75px rgba(255, 180, 90, .95); }
   }
 
-  /* Tam giác bo góc bên trong nút */
   .playIcon {
-    width: 52px;
-    height: 52px;
+    width: 52px; height: 52px;
     filter: drop-shadow(0 0 14px rgba(255, 217, 122, .9));
+    pointer-events: none;
   }
 
   .startHint {
-    font-size: 13px;
-    letter-spacing: .28em;
+    font-size: 13px; letter-spacing: .28em;
     text-transform: uppercase;
     color: rgba(255, 217, 122, .85);
     text-shadow: 0 0 14px rgba(255, 180, 90, .7);
     animation: hintBlink 2s ease-in-out infinite;
-    user-select: none;
+    pointer-events: none;
   }
   @keyframes hintBlink {
     0%, 100% { opacity: .45; }
     50%      { opacity: 1; }
+  }
+
+  /* ===== NÚT TẮT NHẠC (góc phải trên) ===== */
+  .musicBtn {
+    position: fixed; top: 14px; right: 14px; z-index: 999;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 217, 122, .6);
+    background: rgba(30, 20, 50, .65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #ffd97a;
+    font-size: 20px; line-height: 1;
+    cursor: pointer;
+    display: none;
+    align-items: center; justify-content: center;
+    box-shadow: 0 0 20px rgba(255, 180, 90, .35);
+    -webkit-appearance: none; appearance: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .musicBtn.show { display: flex; }
+  .musicBtn.playing {
+    animation: pulseMusic 1.8s ease-in-out infinite;
+  }
+  @keyframes pulseMusic {
+    0%, 100% { box-shadow: 0 0 18px rgba(255, 180, 90, .45); }
+    50%      { box-shadow: 0 0 34px rgba(255, 180, 90, .9); }
   }
 </style>
 </head>
@@ -276,8 +303,7 @@
   <!-- ============ MÀN HÌNH MỞ ĐẦU ============ -->
   <div class="startOverlay" id="startOverlay">
     <div class="startContent">
-      <button class="startBtn" id="startBtn" aria-label="Bắt đầu">
-        <!-- Tam giác bo góc -->
+      <button class="startBtn" id="startBtn" type="button" aria-label="Bắt đầu">
         <svg class="playIcon" viewBox="0 0 100 100" aria-hidden="true">
           <polygon points="28,22 76,50 28,78"
                    fill="#ffd97a"
@@ -290,14 +316,17 @@
     </div>
   </div>
 
-  <!-- Nhạc nền — để file music.mp3 cùng thư mục với file HTML -->
-  <audio id="bgMusic" loop preload="auto">
-    <source src="music.mp3" type="audio/mpeg">
+  <!-- Nút bật/tắt nhạc (hiện sau khi bắt đầu) -->
+  <button class="musicBtn" id="musicBtn" type="button" aria-label="Bật/tắt nhạc">🔊</button>
+
+  <!-- NHẠC NỀN — dùng URL tuyệt đối để chạy được trên iPhone/Android/PC -->
+  <audio id="bgMusic" loop playsinline preload="none" crossorigin="anonymous">
+    <source src="https://su-kien-moi.github.io/test-1/music.mp3" type="audio/mpeg">
   </audio>
 
 <script>
   /* ============================================================
-     100 DÒNG VĂN BẢN — MUỐN SỬA NỘI DUNG, CHỈ CẦN SỬA MẢNG NÀY
+     100 DÒNG VĂN BẢN — sửa nội dung tại đây
      ============================================================ */
   const LINES = [
     "Kính chúc quý thầy cô luôn mạnh khỏe, bình an và tràn đầy nhiệt huyết với nghề!",
@@ -430,10 +459,22 @@
       track.classList.add('running');
     }
     requestAnimationFrame(apply);
+    let resizeTimer;
     window.addEventListener('resize', () => {
-      track.classList.remove('running');
-      track.style.removeProperty('--dur');
-      requestAnimationFrame(apply);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        track.classList.remove('running');
+        track.style.removeProperty('--dur');
+        requestAnimationFrame(apply);
+      }, 200);
+    });
+    // iOS: tính lại khi xoay màn hình
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        track.classList.remove('running');
+        track.style.removeProperty('--dur');
+        requestAnimationFrame(apply);
+      }, 300);
     });
   })();
 
@@ -494,37 +535,72 @@
     box.appendChild(frag);
   })();
 
-  /* ---------- MÀN HÌNH MỞ ĐẦU + NHẠC ---------- */
+  /* ============================================================
+     MÀN HÌNH MỞ ĐẦU + NHẠC — ĐÃ TỐI ƯU CHO iOS / ANDROID / PC
+     ============================================================ */
   (function startScreen() {
     const overlay = document.getElementById('startOverlay');
     const btn     = document.getElementById('startBtn');
     const audio   = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
     const body    = document.body;
-
-    audio.volume = 0.55;
 
     let started = false;
 
-    function start() {
-      if (started) return;
-      started = true;
+    // iOS: volume có thể read-only → wrap try/catch
+    try { audio.volume = 0.6; } catch (e) {}
 
-      body.classList.add('started');
-      overlay.classList.add('hidden');
-
-      if (audio) {
-        audio.play().catch(() => { /* nếu thiếu file nhạc thì bỏ qua */ });
+    function playMusic() {
+      // iOS yêu cầu: load() rồi play() ngay trong sự kiện chạm
+      try { audio.load(); } catch (e) {}
+      const p = audio.play();
+      if (p && typeof p.then === 'function') {
+        p.then(() => {
+          musicBtn.textContent = '🔊';
+          musicBtn.classList.add('playing');
+        }).catch((err) => {
+          console.warn('Lỗi phát nhạc:', err.name, err.message);
+          musicBtn.textContent = '🔇';
+          musicBtn.classList.remove('playing');
+        });
       }
     }
 
+    function start(e) {
+      // Chống double-fire (click + touchend cùng chạy)
+      if (started) return;
+      started = true;
+
+      // Ngăn sự kiện lan ra ngoài
+      if (e && e.cancelable) e.preventDefault();
+
+      body.classList.add('started');
+      overlay.classList.add('hidden');
+      musicBtn.classList.add('show');
+
+      // Gọi play() TRỰC TIẾP trong handler, không setTimeout
+      playMusic();
+
+      // Gỡ listener để không chạy lại
+      btn.removeEventListener('click', start);
+      btn.removeEventListener('touchend', start);
+      overlay.removeEventListener('click', start);
+    }
+
+    // Gắn cả click (PC) và touchend (mobile)
     btn.addEventListener('click', start);
+    btn.addEventListener('touchend', start);
     overlay.addEventListener('click', start);
 
-    // Bấm phím Enter / Space khi nút đang focus
-    btn.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        start();
+    // Nút bật/tắt nhạc
+    musicBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (audio.paused) {
+        playMusic();
+      } else {
+        audio.pause();
+        musicBtn.textContent = '🔇';
+        musicBtn.classList.remove('playing');
       }
     });
   })();
