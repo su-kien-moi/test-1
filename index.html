@@ -20,17 +20,10 @@
     position: relative;
   }
 
-  /* ================= LỚP SAO ================= */
-  .stars {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-  }
+  /* ================= NỀN SAO ================= */
+  .stars { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
   .star {
-    position: absolute;
-    background: #fff;
-    border-radius: 50%;
+    position: absolute; background: #fff; border-radius: 50%;
     animation: twinkleStar 3s ease-in-out infinite;
   }
   @keyframes twinkleStar {
@@ -38,18 +31,13 @@
     50%      { opacity: 1;   transform: scale(1.25); }
   }
 
-  /* ================= LỚP HOA ĐÈN LỒNG 🌷 ================= */
+  /* ================= HOA BAY ================= */
   .lanterns {
-    position: fixed;
-    inset: 0;
-    z-index: 2;
-    overflow: hidden;
-    pointer-events: none;
+    position: fixed; inset: 0; z-index: 2;
+    overflow: hidden; pointer-events: none;
   }
   .lantern {
-    position: absolute;
-    bottom: -15vh;
-    line-height: 1;
+    position: absolute; bottom: -15vh; line-height: 1;
     will-change: transform;
     animation-name: flyUp;
     animation-timing-function: linear;
@@ -75,86 +63,83 @@
     to   { transform: translateX(7px)  scale(1.06); }
   }
 
-  /* ================= LỚP CHỮ CHẠY ================= */
+  /* ================= CHỮ CHẠY ================= */
   .textTrack {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 100%;
-    z-index: 3;
-    padding: 0 7vw 60px;
-    text-align: center;
-    pointer-events: none;
-    animation: rise 70s linear infinite; /* chậm hơn vì văn bản dài hơn */
+    position: fixed; left: 0; right: 0; top: 100%;
+    z-index: 3; padding: 0 7vw 60px;
+    text-align: center; pointer-events: none;
+  }
+  .textTrack.running {
+    animation: rise var(--dur, 300s) linear infinite;
   }
   @keyframes rise {
     from { transform: translateY(0); }
     to   { transform: translateY(calc(-100% - 100vh)); }
   }
 
+  /* ===== TẠM DỪNG MỌI THỨ CHO ĐẾN KHI BẤM NÚT ===== */
+  body:not(.started) .textTrack.running {
+    animation-play-state: paused;
+  }
+  body:not(.started) .lantern,
+  body:not(.started) .lantern span {
+    animation-play-state: paused;
+  }
+
   .textTrack h1 {
     font-size: clamp(42px, 11vw, 110px);
-    font-weight: 900;
-    letter-spacing: .1em;
-    margin-bottom: 8px;
+    font-weight: 900; letter-spacing: .1em; margin-bottom: 8px;
     background: linear-gradient(90deg, #ffe08a, #ff8fb8, #ffe08a);
     background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
     filter: drop-shadow(0 0 22px rgba(255, 170, 90, .6));
     animation: shine 5s linear infinite;
   }
-  @keyframes shine {
-    to { background-position: 200% 0; }
-  }
+  @keyframes shine { to { background-position: 200% 0; } }
 
   .textTrack h2 {
     font-size: clamp(15px, 3.4vw, 30px);
-    font-weight: 800;
-    letter-spacing: .16em;
+    font-weight: 800; letter-spacing: .16em;
     color: #ffd97a;
     text-shadow: 0 0 18px rgba(255, 190, 80, .75);
-    margin-bottom: 30px;
+    margin-bottom: 34px;
   }
   .textTrack h2.end {
-    margin-top: 34px;
-    margin-bottom: 40px;
+    margin-top: 34px; margin-bottom: 40px;
     color: #ffb3cd;
     text-shadow: 0 0 18px rgba(255, 120, 170, .8);
   }
 
   .textTrack p {
-    max-width: 940px;
-    margin: 0 auto 22px;
-    font-size: clamp(15px, 2.5vw, 21px);
-    line-height: 1.85;
-    color: rgba(255, 255, 255, .88);
-    text-shadow: 0 0 14px rgba(160, 180, 255, .45);
+    max-width: 920px;
+    margin: 0 auto 16px;
+    font-size: clamp(14px, 2.2vw, 19px);
+    line-height: 1.75;
+    color: rgba(255, 255, 255, .86);
+    text-shadow: 0 0 14px rgba(160, 180, 255, .4);
   }
   .textTrack p.big {
-    font-size: clamp(18px, 3.1vw, 27px);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.6;
+    font-size: clamp(17px, 2.9vw, 25px);
+    font-weight: 700; color: #fff;
+    line-height: 1.55; margin: 22px auto 22px;
   }
   .textTrack p.quote {
     font-style: italic;
     color: #ffc4dc;
-    text-shadow: 0 0 14px rgba(255, 120, 170, .6);
+    text-shadow: 0 0 16px rgba(255, 120, 170, .65);
+    margin: 22px auto 22px;
+    font-size: clamp(15px, 2.4vw, 21px);
   }
+
   .textTrack .divider {
-    width: 90px;
-    height: 2px;
-    margin: 30px auto;
+    width: 90px; height: 2px; margin: 30px auto;
     background: linear-gradient(90deg, transparent, #ffd97a, transparent);
     border-radius: 2px;
   }
 
   /* ===== PHẦN TIẾNG TRUNG ===== */
   .textTrack .cnBlock {
-    max-width: 900px;
-    margin: 0 auto;
+    max-width: 900px; margin: 0 auto;
     padding: 26px 26px 30px;
     border: 1px solid rgba(255, 217, 122, .35);
     border-radius: 18px;
@@ -163,16 +148,14 @@
   }
   .textTrack .cnTitle {
     font-size: clamp(22px, 4.4vw, 38px);
-    font-weight: 900;
-    letter-spacing: .18em;
+    font-weight: 900; letter-spacing: .18em;
     color: #ffd97a;
     text-shadow: 0 0 22px rgba(255, 190, 80, .85);
     margin-bottom: 20px;
   }
   .textTrack .cnText {
     font-size: clamp(15px, 2.6vw, 22px);
-    line-height: 2;
-    letter-spacing: .06em;
+    line-height: 2; letter-spacing: .06em;
     color: #ffe3b0;
     text-shadow: 0 0 14px rgba(255, 200, 120, .55);
     margin-bottom: 14px;
@@ -182,36 +165,100 @@
     color: #ffc4dc;
     text-shadow: 0 0 14px rgba(255, 120, 170, .6);
   }
+
+  /* ================= MÀN HÌNH MỞ ĐẦU ================= */
+  .startOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(5, 6, 15, .92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: opacity .7s ease, visibility .7s ease;
+  }
+  .startOverlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .startContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+  }
+
+  /* Nút tròn ở giữa */
+  .startBtn {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 217, 122, .55);
+    background: radial-gradient(circle at 30% 30%,
+                rgba(255, 217, 122, .18),
+                rgba(30, 20, 50, .9));
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 40px rgba(255, 180, 90, .4);
+    animation: pulseStart 2.2s ease-in-out infinite;
+    transition: transform .25s ease, box-shadow .3s ease;
+  }
+  .startBtn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 70px rgba(255, 180, 90, .85);
+  }
+  .startBtn:active {
+    transform: scale(.95);
+  }
+  .startBtn:focus-visible {
+    outline: 2px solid #ffd97a;
+    outline-offset: 8px;
+  }
+  @keyframes pulseStart {
+    0%, 100% { box-shadow: 0 0 40px rgba(255, 180, 90, .4); }
+    50%      { box-shadow: 0 0 75px rgba(255, 180, 90, .95); }
+  }
+
+  /* Tam giác bo góc bên trong nút */
+  .playIcon {
+    width: 52px;
+    height: 52px;
+    filter: drop-shadow(0 0 14px rgba(255, 217, 122, .9));
+  }
+
+  .startHint {
+    font-size: 13px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: rgba(255, 217, 122, .85);
+    text-shadow: 0 0 14px rgba(255, 180, 90, .7);
+    animation: hintBlink 2s ease-in-out infinite;
+    user-select: none;
+  }
+  @keyframes hintBlink {
+    0%, 100% { opacity: .45; }
+    50%      { opacity: 1; }
+  }
 </style>
 </head>
 <body>
 
-  <!-- Nền sao lấp lánh -->
   <div class="stars" id="stars"></div>
-
-  <!-- Hoa tulip bay liên tục, lệch nhịp như sao -->
   <div class="lanterns" id="lanterns"></div>
 
-  <!-- Chữ chạy từ dưới lên -->
-  <div class="textTrack">
+  <div class="textTrack" id="textTrack">
     <h1>20 · 11</h1>
     <h2>CHÚC MỪNG NGÀY NHÀ GIÁO VIỆT NAM</h2>
 
-    <p class="big">Kính chúc quý thầy cô luôn mạnh khỏe, bình an và tràn đầy nhiệt huyết với nghề!</p>
-
-    <p>Cảm ơn thầy cô đã thắp sáng những ước mơ, đã kiên nhẫn dìu dắt bao thế hệ học trò từ những bước đi đầu tiên còn chập chững, cho đến khi các em đủ tự tin bay cao, bay xa giữa bầu trời rộng lớn.</p>
-
-    <p>Mỗi bài giảng của thầy cô không chỉ là kiến thức, mà còn là bài học về lòng nhân ái, về sự kiên trì, về cách đứng dậy sau mỗi lần vấp ngã. Những điều giản dị ấy đã theo chúng em suốt cuộc đời.</p>
-
-    <p class="quote">“Uống nước nhớ nguồn – Ăn quả nhớ kẻ trồng cây”</p>
-
-    <p>Có những người thầy, người cô lặng lẽ như ánh đèn khuya nơi góc phố — không rực rỡ, không ồn ào, nhưng luôn đủ sáng để soi đường cho những đứa trò nhỏ đi qua đêm tối của sự hoang mang và thiếu tự tin.</p>
-
-    <p>Hôm nay, chúng em chỉ có thể gửi đến thầy cô một bông hoa, một lời chúc, và một tấm lòng biết ơn chân thành nhất 🌷 Mong thầy cô luôn giữ được ngọn lửa yêu nghề, để mỗi ngày đến trường vẫn là một ngày vui, mỗi tiết học vẫn là một niềm háo hức.</p>
+    <div id="lines"></div>
 
     <div class="divider"></div>
 
-    <!-- ===== ĐOẠN TIẾNG TRUNG ===== -->
     <div class="cnBlock">
       <p class="cnTitle">教师节快乐 · 20/11</p>
       <p class="cnText">敬爱的老师，您辛苦了！</p>
@@ -223,35 +270,193 @@
 
     <div class="divider"></div>
 
-    <p class="big">Chúc mừng Ngày Nhà giáo Việt Nam 20/11!</p>
-
     <h2 class="end">HAPPY TEACHER'S DAY 20/11</h2>
   </div>
 
+  <!-- ============ MÀN HÌNH MỞ ĐẦU ============ -->
+  <div class="startOverlay" id="startOverlay">
+    <div class="startContent">
+      <button class="startBtn" id="startBtn" aria-label="Bắt đầu">
+        <!-- Tam giác bo góc -->
+        <svg class="playIcon" viewBox="0 0 100 100" aria-hidden="true">
+          <polygon points="28,22 76,50 28,78"
+                   fill="#ffd97a"
+                   stroke="#ffd97a"
+                   stroke-width="16"
+                   stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <p class="startHint">Nhấn để mở 🌷</p>
+    </div>
+  </div>
+
+  <!-- Nhạc nền — để file music.mp3 cùng thư mục với file HTML -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
 <script>
-  /* ---------- Tạo 160 ngôi sao nền ---------- */
+  /* ============================================================
+     100 DÒNG VĂN BẢN — MUỐN SỬA NỘI DUNG, CHỈ CẦN SỬA MẢNG NÀY
+     ============================================================ */
+  const LINES = [
+    "Kính chúc quý thầy cô luôn mạnh khỏe, bình an và tràn đầy nhiệt huyết với nghề!",
+    "Cảm ơn thầy cô đã thắp sáng những ước mơ của bao thế hệ học trò.",
+    "Cảm ơn thầy cô đã kiên nhẫn dìu dắt chúng em từ những bước đi đầu tiên còn chập chững.",
+    "Mỗi bài giảng của thầy cô không chỉ là kiến thức, mà còn là bài học về lòng nhân ái.",
+    "Những điều giản dị ấy đã theo chúng em suốt cuộc đời.",
+    "“Uống nước nhớ nguồn – Ăn quả nhớ kẻ trồng cây.”",
+    "Có những người thầy lặng lẽ như ánh đèn khuya nơi góc phố.",
+    "Không rực rỡ, không ồn ào, nhưng luôn đủ sáng để soi đường.",
+    "Thầy cô là người mở cánh cửa tri thức cho chúng em.",
+    "Thầy cô là người chắp cánh cho những ước mơ bay cao, bay xa.",
+    "Ngày 20/11, chúng em chỉ có thể gửi đến thầy cô một bông hoa và một tấm lòng biết ơn.",
+    "Bông hoa nhỏ, lời chúc nhỏ, nhưng tình cảm thì không nhỏ chút nào.",
+    "Mong thầy cô luôn giữ được ngọn lửa yêu nghề trong tim.",
+    "Mong mỗi ngày đến trường vẫn là một ngày vui của thầy cô.",
+    "Mong mỗi tiết học vẫn là một niềm háo hức của cả thầy và trò.",
+    "Thầy cô đã dạy chúng em biết đọc, biết viết, biết nghĩ.",
+    "Thầy cô đã dạy chúng em biết ước mơ và biết cố gắng.",
+    "Thầy cô đã dạy chúng em cách đứng dậy sau mỗi lần vấp ngã.",
+    "Có những bài học không có trong sách vở, mà chỉ có ở thầy cô.",
+    "Đó là bài học về sự tử tế, về lòng bao dung, về tình yêu thương.",
+    "Có những lời thầy cô nói, chúng em nhớ mãi đến hôm nay.",
+    "Có những ánh mắt thầy cô trao, chúng em mang theo suốt cuộc đời.",
+    "Thầy cô là người đã tin vào chúng em khi chính chúng em còn chưa tin vào bản thân.",
+    "Thầy cô là người đã kiên nhẫn với chúng em khi chúng em còn bướng bỉnh.",
+    "Thầy cô là người đã tha thứ cho chúng em khi chúng em còn vụng dại.",
+    "Và thầy cô là người đã vui cùng chúng em khi chúng em thành công.",
+    "Nghề giáo là nghề trồng người – nghề cao quý nhất trong những nghề cao quý.",
+    "Mỗi người thầy, người cô là một người làm vườn lặng lẽ.",
+    "Người gieo hạt, người tưới mầm, người chờ đợi ngày hoa nở.",
+    "Hoa nở rồi, người làm vườn lại lặng lẽ gieo những hạt mới.",
+    "Đó là sự hy sinh thầm lặng mà chỉ người trong nghề mới hiểu.",
+    "Đó là tình yêu nghề mà không lời nào kể hết.",
+    "Chúng em biết ơn những đêm thầy cô thức khuya soạn bài.",
+    "Chúng em biết ơn những buổi chiều thầy cô ở lại phụ đạo học trò yếu.",
+    "Chúng em biết ơn những lần thầy cô tự bỏ tiền túi mua sách vở cho học trò nghèo.",
+    "Chúng em biết ơn những lần thầy cô đến tận nhà vận động học trò trở lại trường.",
+    "Những việc làm ấy không ai ghi lại, nhưng chúng em không bao giờ quên.",
+    "Ngày 20/11, chúng em muốn nói một lời cảm ơn thật to.",
+    "Cảm ơn thầy cô vì đã chọn nghề này.",
+    "Cảm ơn thầy cô vì đã chọn chúng em.",
+    "Cảm ơn thầy cô vì đã không bỏ cuộc với những đứa trò khó dạy nhất.",
+    "Cảm ơn thầy cô vì đã luôn công bằng với tất cả học trò.",
+    "Cảm ơn thầy cô vì đã dạy chúng em rằng thất bại không đáng sợ.",
+    "Điều đáng sợ là không dám thử.",
+    "Cảm ơn thầy cô vì đã dạy chúng em rằng thành công không tự đến.",
+    "Điều cần là sự kiên trì và nỗ lực mỗi ngày.",
+    "Cảm ơn thầy cô vì đã dạy chúng em rằng con người sống cần có ước mơ.",
+    "Và ước mơ chỉ thành hiện thực khi ta dám bước đi.",
+    "Thầy cô đã cho chúng em một hành trang quý giá để bước vào đời.",
+    "Hành trang ấy không phải vàng bạc, mà là tri thức và nhân cách.",
+    "Chúng em có thể quên nhiều thứ, nhưng sẽ không quên thầy cô.",
+    "Chúng em có thể đi xa, nhưng sẽ luôn nhớ về mái trường xưa.",
+    "Nhớ bảng đen, nhớ phấn trắng, nhớ tiếng giảng bài đều đều.",
+    "Nhớ nụ cười hiền của thầy cô mỗi khi chúng em làm đúng.",
+    "Nhớ ánh mắt nghiêm khắc của thầy cô mỗi khi chúng em lười biếng.",
+    "Nhớ những giờ ra chơi rộn ràng tiếng cười.",
+    "Nhớ những buổi lao động cùng nhau dưới nắng.",
+    "Nhớ những buổi sinh hoạt lớp đầy ắp kỷ niệm.",
+    "Nhớ những trang lưu bút viết vội ngày chia tay.",
+    "Những ký ức ấy là hành lý không thể thiếu trên hành trình trưởng thành.",
+    "Hôm nay, chúng em đã lớn, đã đi những con đường riêng.",
+    "Nhưng trong tim, chúng em vẫn là những đứa học trò nhỏ.",
+    "Vẫn nhớ ơn thầy cô như thuở nào ngồi trên ghế nhà trường.",
+    "Ngày Nhà giáo Việt Nam là dịp để chúng em nói lời tri ân.",
+    "Tri ân những người đã đưa chúng em đến bến bờ tri thức.",
+    "Tri ân những người đã thắp lên trong chúng em ngọn lửa ước mơ.",
+    "Tri ân những người đã dạy chúng em cách làm một con người tử tế.",
+    "Thầy cô ơi, chúng em cảm ơn thầy cô nhiều lắm!",
+    "Cảm ơn thầy cô vì tất cả những gì thầy cô đã dành cho chúng em.",
+    "Chúng em hứa sẽ sống xứng đáng với những bài học thầy cô đã dạy.",
+    "Chúng em hứa sẽ không bao giờ quên ơn thầy cô.",
+    "Chúng em hứa sẽ tiếp tục học hỏi, tiếp tục trưởng thành.",
+    "Để mỗi lần gặp lại, thầy cô có thể tự hào về học trò của mình.",
+    "Ngày 20/11 là ngày của thầy cô, của những người đưa đò thầm lặng.",
+    "Người đưa đò không nhớ hết mặt những người qua sông.",
+    "Nhưng những người qua sông sẽ nhớ mãi người đưa đò.",
+    "Thầy cô là người đưa đò của cuộc đời chúng em.",
+    "Chuyến đò ấy không bao giờ kết thúc trong ký ức chúng em.",
+    "Một lần nữa, chúng em xin gửi đến thầy cô lời chúc tốt đẹp nhất.",
+    "Chúc thầy cô luôn mạnh khỏe, vui vẻ, hạnh phúc.",
+    "Chúc thầy cô luôn giữ được nụ cười trên môi mỗi ngày đến lớp.",
+    "Chúc thầy cô luôn được học trò yêu thương và kính trọng.",
+    "Chúc thầy cô luôn có một mái ấm gia đình bình yên.",
+    "Chúc thầy cô có nhiều niềm vui trong cuộc sống.",
+    "Chúc thầy cô gặp nhiều may mắn trên con đường sự nghiệp.",
+    "Chúc những cố gắng của thầy cô luôn được đền đáp xứng đáng.",
+    "Chúc cho nghề giáo mãi được xã hội trân trọng và tôn vinh.",
+    "Và chúc cho tình thầy trò mãi mãi bền chặt theo năm tháng.",
+    "Những bông hoa tulip đang bay trên màn hình là tấm lòng của chúng em.",
+    "Mỗi bông hoa là một lời chúc, một lời cảm ơn, một niềm kính trọng.",
+    "Chúng bay lên như những ước mơ mà thầy cô đã chắp cánh cho chúng em.",
+    "Chúng bay lên như những hy vọng mà thầy cô đã gieo vào lòng chúng em.",
+    "Cảm ơn thầy cô đã cho chúng em một tuổi học trò thật đẹp.",
+    "Cảm ơn thầy cô đã cho chúng em một tuổi trẻ thật ý nghĩa.",
+    "Cảm ơn thầy cô đã cho chúng em một niềm tin thật vững chắc vào cuộc đời.",
+    "Dù mai này có đi đâu, làm gì, chúng em vẫn mãi là học trò của thầy cô.",
+    "Dù thời gian có trôi qua bao lâu, ơn thầy cô vẫn vẹn nguyên trong tim.",
+    "Chúc mừng Ngày Nhà giáo Việt Nam 20/11!",
+    "Chúc mừng ngày hội của những người thầy, người cô đáng kính.",
+    "HAPPY TEACHER'S DAY – 20/11!"
+  ];
+
+  /* ---------- Đổ 100 dòng vào trang ---------- */
+  (function renderLines() {
+    const container = document.getElementById('lines');
+    const frag = document.createDocumentFragment();
+    const bigIdx = new Set([0, 49, 98, 99]);
+
+    LINES.forEach((text, i) => {
+      const p = document.createElement('p');
+      p.textContent = text;
+      if (bigIdx.has(i)) p.classList.add('big');
+      else if (/^[“"]/.test(text)) p.classList.add('quote');
+      frag.appendChild(p);
+    });
+    container.appendChild(frag);
+  })();
+
+  /* ---------- Tự động tính tốc độ chạy theo độ dài văn bản ---------- */
+  (function autoSpeed() {
+    const track = document.getElementById('textTrack');
+    const SPEED_PX_PER_SEC = 28;
+
+    function apply() {
+      const travel = track.scrollHeight + window.innerHeight;
+      const dur = (travel / SPEED_PX_PER_SEC).toFixed(1);
+      track.style.setProperty('--dur', dur + 's');
+      track.classList.add('running');
+    }
+    requestAnimationFrame(apply);
+    window.addEventListener('resize', () => {
+      track.classList.remove('running');
+      track.style.removeProperty('--dur');
+      requestAnimationFrame(apply);
+    });
+  })();
+
+  /* ---------- 160 ngôi sao nền ---------- */
   (function createStars() {
     const sky = document.getElementById('stars');
     const frag = document.createDocumentFragment();
-
     for (let i = 0; i < 160; i++) {
       const s = document.createElement('i');
       s.className = 'star';
-
       const size = (Math.random() * 2 + 1).toFixed(2);
       s.style.width = size + 'px';
       s.style.height = size + 'px';
       s.style.left = (Math.random() * 100).toFixed(2) + 'vw';
-      s.style.top = (Math.random() * 100).toFixed(2) + 'vh';
+      s.style.top  = (Math.random() * 100).toFixed(2) + 'vh';
       s.style.animationDuration = (2 + Math.random() * 3).toFixed(2) + 's';
-      s.style.animationDelay = (Math.random() * 3).toFixed(2) + 's';
-
+      s.style.animationDelay    = (Math.random() * 3).toFixed(2) + 's';
       frag.appendChild(s);
     }
     sky.appendChild(frag);
   })();
 
-  /* ---------- 100 bông hoa bay LIÊN TỤC, LỆCH NHỊP như sao ---------- */
+  /* ---------- 100 bông hoa bay liên tục, lệch nhịp ---------- */
   (function createLanterns() {
     const box = document.getElementById('lanterns');
     const TOTAL = 100;
@@ -260,7 +465,6 @@
     for (let i = 0; i < TOTAL; i++) {
       const el = document.createElement('div');
       el.className = 'lantern';
-
       const span = document.createElement('span');
       span.textContent = '🌷';
       el.appendChild(span);
@@ -288,6 +492,41 @@
       frag.appendChild(el);
     }
     box.appendChild(frag);
+  })();
+
+  /* ---------- MÀN HÌNH MỞ ĐẦU + NHẠC ---------- */
+  (function startScreen() {
+    const overlay = document.getElementById('startOverlay');
+    const btn     = document.getElementById('startBtn');
+    const audio   = document.getElementById('bgMusic');
+    const body    = document.body;
+
+    audio.volume = 0.55;
+
+    let started = false;
+
+    function start() {
+      if (started) return;
+      started = true;
+
+      body.classList.add('started');
+      overlay.classList.add('hidden');
+
+      if (audio) {
+        audio.play().catch(() => { /* nếu thiếu file nhạc thì bỏ qua */ });
+      }
+    }
+
+    btn.addEventListener('click', start);
+    overlay.addEventListener('click', start);
+
+    // Bấm phím Enter / Space khi nút đang focus
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        start();
+      }
+    });
   })();
 </script>
 </body>
