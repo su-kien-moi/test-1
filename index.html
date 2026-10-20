@@ -59,9 +59,9 @@
   }
   @keyframes flyUp {
     0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
-    100% { transform: translate3d(var(--dx, 0px), -125vh, 0) rotate(var(--rot, 0deg)); }
+    100% { transform: translate3d (var(--dx, 0px), -1250vh, 0) rotate(var(--rot,; 0deg)); }
   }
-  @keyframes glowLantern {
+ right  @keyframes glowLantern {
     from { opacity: .35; filter: drop-shadow(0 0 3px rgba(255, 120, 170, .8)); }
     to   { opacity: 1;   filter: drop-shadow(0 0 16px rgba(255, 215, 120, 1)); }
   }
@@ -72,7 +72,7 @@
 
   /* ================= CHỮ CHẠY ================= */
   .textTrack {
-    position: fixed; left: 0; right: 0; top: 100%;
+    position: fixed; left:: 0; top: 100%;
     z-index: 3; padding: 0 7vw 60px;
     text-align: center; pointer-events: none;
   }
@@ -168,6 +168,88 @@
     text-shadow: 0 0 14px rgba(255, 120, 170, .6);
   }
 
+  /* ===== KHỐI NGƯỜI LÀM / NGƯỜI NHẬN ===== */
+  .credit {
+    max-width: 720px;
+    margin: 0 auto 40px;
+    padding: 22px 26px;
+    border: 1px solid rgba(255, 217, 122, .35);
+    border-radius: 16px;
+    background: rgba(255, 200, 120, .06);
+    box-shadow: 0 0 26px rgba(255, 180, 90, .15) inset;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .credit .row {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: clamp(15px, 2.6vw, 21px);
+    line-height: 1.6;
+    text-align: center;
+  }
+  .credit .label {
+    color: rgba(255, 217, 122, .75);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-size: clamp(12px, 1.9vw, 15px);
+    font-weight: 600;
+  }
+  .credit .name {
+    color: #ffe08a;
+    font-weight: 800;
+    font-size: clamp(18px, 3.2vw, 26px);
+    text-shadow: 0 0 18px rgba(255, 200, 100, .8);
+    letter-spacing: .04em;
+  }
+  .credit .name.pink {
+    color: #ffb3cd;
+    text-shadow: 0 0 18px rgba(255, 120, 170, .8);
+  }
+  .credit .dot {
+    color: rgba(255, 217, 122, .55);
+    font-size: 18px;
+    letter-spacing: .6em;
+    text-align: center;
+  }
+
+  /* ===== CREDIT CUỐI TRANG ===== */
+  .madeBy {
+    margin: 20px auto 60px;
+    font-size: clamp(13px, 2vw, 16px);
+    letter-spacing: .12em;
+    color: rgba(255, 217, 122, .7);
+    text-shadow: 0 0 14px rgba(255, 180, 90, .55);
+    text-align: center;
+    font-weight: 500;
+  }
+  .madeBy .globe {
+    display: inline-block;
+    margin-right: 4px;
+    animation: spinGlobe 6s linear infinite;
+    transform-origin: center;
+  }
+  @keyframes spinGlobe {
+    0%   { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+  }
+  .madeBy a {
+    color: #ffe08a;
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 1px dashed rgba(255, 217, 122, .5);
+    padding-bottom: 1px;
+    transition: color .2s, border-color .2s, text-shadow .2s;
+  }
+  .madeBy a:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+    text-shadow: 0 0 20px rgba(255, 217, 122, 1);
+  }
+
   /* ================= MÀN HÌNH MỞ ĐẦU ================= */
   .startOverlay {
     position: fixed; inset: 0; z-index: 1000;
@@ -241,32 +323,107 @@
     50%      { opacity: 1; }
   }
 
-  /* ===== NÚT TẮT NHẠC ===== */
-  .musicBtn {
+  /* ================= BẢNG ĐIỀU KHIỂN NHẠC ================= */
+  .musicPanel {
     position: fixed; top: 14px; right: 14px; z-index: 999;
-    width: 46px; height: 46px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px 8px 8px;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 217, 122, .45);
+    background: rgba(30, 20, 50, .7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 0 22px rgba(255, 180, 90, .3);
+  }
+  .musicPanel.show { display: flex; }
+
+  .musicBtn {
+    width: 40px; height: 40px;
     border-radius: 50%;
     border: 1px solid rgba(255, 217, 122, .6);
-    background: rgba(30, 20, 50, .65);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(255, 217, 122, .1);
     color: #ffd97a;
-    font-size: 20px; line-height: 1;
+    font-size: 18px; line-height: 1;
     cursor: pointer;
-    display: none;
-    align-items: center; justify-content: center;
-    box-shadow: 0 0 20px rgba(255, 180, 90, .35);
+    display: flex; align-items: center; justify-content: center;
     -webkit-appearance: none; appearance: none;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+    transition: background .2s, transform .15s;
   }
-  .musicBtn.show { display: flex; }
+  .musicBtn:active { transform: scale(.9); }
   .musicBtn.playing {
     animation: pulseMusic 1.8s ease-in-out infinite;
   }
   @keyframes pulseMusic {
-    0%, 100% { box-shadow: 0 0 18px rgba(255, 180, 90, .45); }
-    50%      { box-shadow: 0 0 34px rgba(255, 180, 90, .9); }
+    0%, 100% { box-shadow: 0 0 12px rgba(255, 180, 90, .45); }
+    50%      { box-shadow: 0 0 26px rgba(255, 180, 90, .95); }
+  }
+
+  .volumeWrap {
+    display: flex; align-items: center; gap: 8px;
+    padding-right: 4px;
+  }
+  .volumeIcon {
+    font-size: 15px;
+    color: #ffd97a;
+    opacity: .85;
+    pointer-events: none;
+    flex-shrink: 0;
+  }
+  .volumeSlider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 90px;
+    height: 6px;
+    border-radius: 6px;
+    background: linear-gradient(
+      90deg,
+      #ffd97a 0%,
+      #ffd97a var(--val, 60%),
+      rgba(255, 217, 122, .2) var(--val, 60%),
+      rgba(255, 217, 122, .2) 100%
+    );
+    outline: none;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: #ffe08a;
+    border: 2px solid #ffd97a;
+    box-shadow: 0 0 10px rgba(255, 217, 122, .9);
+    cursor: pointer;
+  }
+  .volumeSlider::-moz-range-thumb {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: #ffe08a;
+    border: 2px solid #ffd97a;
+    box-shadow: 0 0 10px rgba(255, 217, 122, .9);
+    cursor: pointer;
+  }
+  .volumeSlider::-moz-range-track {
+    height: 6px;
+    border-radius: 6px;
+    background: rgba(255, 217, 122, .2);
+  }
+  .volumeSlider::-moz-range-progress {
+    height: 6px;
+    border-radius: 6px;
+    background: #ffd97a;
+  }
+
+  @media (max-width: 480px) {
+    .volumeSlider { width: 70px; }
+    .musicPanel { padding: 6px 10px 6px 6px; gap: 8px; }
+    .musicBtn { width: 36px; height: 36px; font-size: 16px; }
   }
 </style>
 </head>
@@ -278,6 +435,21 @@
   <div class="textTrack" id="textTrack">
     <h1>20 · 11</h1>
     <h2>CHÚC MỪNG NGÀY NHÀ GIÁO VIỆT NAM</h2>
+
+    <!-- KHỐI NGƯỜI LÀM / NGƯỜI NHẬN -->
+    <div class="credit">
+      <div class="row">
+        <span class="label">Người thực hiện</span>
+        <span class="name">Tập thể 9A4</span>
+      </div>
+      <div class="row">
+        <span class="dot">✦ ✦ ✦</span>
+      </div>
+      <div class="row">
+        <span class="label">Kính tặng</span>
+        <span class="name pink">Quý Thầy Cô</span>
+      </div>
+    </div>
 
     <div id="lines"></div>
 
@@ -295,6 +467,11 @@
     <div class="divider"></div>
 
     <h2 class="end">HAPPY TEACHER'S DAY 20/11</h2>
+
+    <!-- CREDIT CUỐI TRANG -->
+    <p class="madeBy">
+      <span class="globe">🌐</span> made by <a href="https://github.com/hql-2311" target="_blank" rel="noopener">@hql_2311</a>
+    </p>
   </div>
 
   <div class="startOverlay" id="startOverlay">
@@ -312,7 +489,15 @@
     </div>
   </div>
 
-  <button class="musicBtn" id="musicBtn" type="button" aria-label="Bật/tắt nhạc">🔊</button>
+  <div class="musicPanel" id="musicPanel">
+    <button class="musicBtn" id="musicBtn" type="button" aria-label="Bật/tắt nhạc">🔊</button>
+    <div class="volumeWrap">
+      <span class="volumeIcon">🔈</span>
+      <input type="range" class="volumeSlider" id="volumeSlider"
+             min="0" max="100" value="60" step="1" aria-label="Âm lượng">
+      <span class="volumeIcon">🔊</span>
+    </div>
+  </div>
 
   <audio id="bgMusic" loop playsinline preload="none" crossorigin="anonymous">
     <source src="https://su-kien-moi.github.io/test-1/music.mp3" type="audio/mpeg">
@@ -439,10 +624,10 @@
     container.appendChild(frag);
   })();
 
-  /* ---------- Tốc độ chữ chạy: 45 = NHANH (cũ là 28) ---------- */
+  /* ---------- Tốc độ chữ chạy ---------- */
   (function autoSpeed() {
     const track = document.getElementById('textTrack');
-    const SPEED_PX_PER_SEC = 45;   // 👈 ĐÃ TĂNG TỪ 28 → 45
+    const SPEED_PX_PER_SEC = 45;
 
     function apply() {
       const travel = track.scrollHeight + window.innerHeight;
@@ -487,7 +672,6 @@
     sky.appendChild(frag);
   })();
 
-  /* ---------- Hoa bay: 7s–16s = NHANH (cũ là 10s–24s) ---------- */
   (function createLanterns() {
     const box = document.getElementById('lanterns');
     const TOTAL = 100;
@@ -501,7 +685,7 @@
       el.appendChild(span);
 
       const size     = 14 + Math.random() * 26;
-      const duration = 7 + Math.random() * 9;   // 👈 ĐÃ TĂNG TỐC (7s–16s)
+      const duration = 7 + Math.random() * 9;
       const delay    = -(Math.random() * duration);
       const drift    = (Math.random() * 2 - 1) * 110;
       const rotate   = (Math.random() * 2 - 1) * 70;
@@ -526,25 +710,51 @@
   })();
 
   /* ============================================================
-     MÀN HÌNH MỞ ĐẦU + NHẠC — TỐI ƯU iOS / ANDROID / PC
+     MÀN HÌNH MỞ ĐẦU + NHẠC + ÂM LƯỢNG
      ============================================================ */
   (function startScreen() {
-    const overlay  = document.getElementById('startOverlay');
-    const btn      = document.getElementById('startBtn');
-    const audio    = document.getElementById('bgMusic');
-    const musicBtn = document.getElementById('musicBtn');
-    const body     = document.body;
+    const overlay    = document.getElementById('startOverlay');
+    const btn        = document.getElementById('startBtn');
+    const audio      = document.getElementById('bgMusic');
+    const musicPanel = document.getElementById('musicPanel');
+    const musicBtn   = document.getElementById('musicBtn');
+    const volSlider  = document.getElementById('volumeSlider');
+    const body       = document.body;
 
     let started = false;
-    try { audio.volume = 0.6; } catch (e) {}
+
+    const STORAGE_KEY = 'tulip_volume';
+    let savedVol = 60;
+    try {
+      const s = localStorage.getItem(STORAGE_KEY);
+      if (s !== null) {
+        const n = parseInt(s, 10);
+        if (!isNaN(n) && n >= 0 && n <= 100) savedVol = n;
+      }
+    } catch (e) {}
+
+    volSlider.value = savedVol;
+    volSlider.style.setProperty('--val', savedVol + '%');
+    setAudioVolume(savedVol / 100);
+    updateVolumeIcon(savedVol);
+
+    function setAudioVolume(v) {
+      try { audio.volume = Math.max(0, Math.min(1, v)); } catch (e) {}
+    }
+
+    function updateVolumeIcon(val) {
+      if (val == 0) musicBtn.textContent = '🔇';
+      else if (val < 40) musicBtn.textContent = '🔉';
+      else musicBtn.textContent = '🔊';
+    }
 
     function playMusic() {
       try { audio.load(); } catch (e) {}
       const p = audio.play();
       if (p && typeof p.then === 'function') {
         p.then(() => {
-          musicBtn.textContent = '🔊';
           musicBtn.classList.add('playing');
+          updateVolumeIcon(parseInt(volSlider.value, 10));
         }).catch((err) => {
           console.warn('Lỗi phát nhạc:', err.name, err.message);
           musicBtn.textContent = '🔇';
@@ -560,7 +770,7 @@
 
       body.classList.add('started');
       overlay.classList.add('hidden');
-      musicBtn.classList.add('show');
+      musicPanel.classList.add('show');
 
       playMusic();
 
@@ -583,6 +793,22 @@
         musicBtn.classList.remove('playing');
       }
     });
+
+    function onVolumeChange() {
+      const val = parseInt(volSlider.value, 10);
+      volSlider.style.setProperty('--val', val + '%');
+      setAudioVolume(val / 100);
+      if (!audio.paused) updateVolumeIcon(val);
+      if (val > 0 && audio.paused && started) {
+        playMusic();
+      }
+      try { localStorage.setItem(STORAGE_KEY, String(val)); } catch (e) {}
+    }
+
+    volSlider.addEventListener('input', onVolumeChange);
+    volSlider.addEventListener('change', onVolumeChange);
+    volSlider.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+    volSlider.addEventListener('click', (e) => e.stopPropagation());
   })();
 </script>
 </body>
