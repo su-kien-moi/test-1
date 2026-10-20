@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chúc Mừng Ngày Nhà Giáo Việt Nam 20/11 🌷</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: #05060f;
+  }
+
+  body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: radial-gradient(circle at 50% 115%, #2b1a3d 0%, #140f26 45%, #05060f 100%);
+    position: relative;
+  }
+
+  /* ================= LỚP SAO ================= */
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkleStar 3s ease-in-out infinite;
+  }
+  @keyframes twinkleStar {
+    0%, 100% { opacity: .12; transform: scale(.6); }
+    50%      { opacity: 1;   transform: scale(1.25); }
+  }
+
+  /* ================= LỚP HOA ĐÈN LỒNG 🌷 ================= */
+  .lanterns {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .lantern {
+    position: absolute;
+    bottom: -15vh;
+    line-height: 1;
+    will-change: transform;
+    animation-name: flyUp;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .lantern span {
+    display: inline-block;
+    animation: glowLantern 2s ease-in-out infinite alternate;
+  }
+  @keyframes flyUp {
+    0% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    100% {
+      transform: translate3d(var(--dx, 0px), -125vh, 0) rotate(var(--rot, 0deg));
+    }
+  }
+  @keyframes glowLantern {
+    from { opacity: .45; filter: drop-shadow(0 0 3px rgba(255, 120, 170, .85)); }
+    to   { opacity: 1;   filter: drop-shadow(0 0 14px rgba(255, 215, 120, 1)); }
+  }
+
+  /* ================= LỚP CHỮ CHẠY ================= */
+  .textTrack {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 3;
+    padding: 0 6vw 40px;
+    text-align: center;
+    pointer-events: none;
+    animation: rise 26s linear infinite;
+  }
+  @keyframes rise {
+    from { transform: translateY(0); }
+    to   { transform: translateY(calc(-100% - 100vh)); }
+  }
+
+  .textTrack h1 {
+    font-size: clamp(42px, 11vw, 110px);
+    font-weight: 900;
+    letter-spacing: .1em;
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, #ffe08a, #ff8fb8, #ffe08a);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 22px rgba(255, 170, 90, .6));
+    animation: shine 5s linear infinite;
+  }
+  @keyframes shine {
+    to { background-position: 200% 0; }
+  }
+
+  .textTrack h2 {
+    font-size: clamp(15px, 3.4vw, 30px);
+    font-weight: 800;
+    letter-spacing: .16em;
+    color: #ffd97a;
+    text-shadow: 0 0 18px rgba(255, 190, 80, .75);
+    margin-bottom: 28px;
+  }
+  .textTrack h2.end {
+    margin-top: 26px;
+    margin-bottom: 60px;
+    color: #ffb3cd;
+    text-shadow: 0 0 18px rgba(255, 120, 170, .8);
+  }
+
+  .textTrack p {
+    max-width: 900px;
+    margin: 0 auto 20px;
+    font-size: clamp(15px, 2.6vw, 22px);
+    line-height: 1.75;
+    color: rgba(255, 255, 255, .88);
+    text-shadow: 0 0 14px rgba(160, 180, 255, .45);
+  }
+  .textTrack p.big {
+    font-size: clamp(17px, 3vw, 26px);
+    font-weight: 600;
+    color: #fff;
+  }
+  .textTrack p.quote {
+    font-style: italic;
+    color: #ffc4dc;
+    text-shadow: 0 0 14px rgba(255, 120, 170, .6);
+  }
+  .textTrack p.cn {
+    color: #ffe3b0;
+    letter-spacing: .04em;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Nền sao lấp lánh -->
+  <div class="stars" id="stars"></div>
+
+  <!-- 100 bông hoa tulip bay như đèn hoa đăng -->
+  <div class="lanterns" id="lanterns"></div>
+
+  <!-- Chữ chạy từ dưới lên -->
+  <div class="textTrack">
+    <h1>20 · 11</h1>
+    <h2>CHÚC MỪNG NGÀY NHÀ GIÁO VIỆT NAM</h2>
+
+    <p class="big">Kính chúc quý thầy cô luôn mạnh khỏe, hạnh phúc và tràn đầy nhiệt huyết!</p>
+    <p>Cảm ơn thầy cô đã thắp sáng những ước mơ và chắp cánh cho bao thế hệ bay cao, bay xa.</p>
+    <p class="quote">“Uống nước nhớ nguồn – Ăn quả nhớ kẻ trồng cây”</p>
+    <p>Một bông hoa, một lời chúc, một tấm lòng biết ơn gửi đến thầy cô 🌷</p>
+    <p class="cn">老师，您辛苦了！祝您教师节快乐 ❤️</p>
+
+    <h2 class="end">HAPPY TEACHER'S DAY 20/11</h2>
+  </div>
+
+<script>
+  /* ---------- Tạo 140 ngôi sao nền ---------- */
+  (function createStars() {
+    const sky = document.getElementById('stars');
+    const frag = document.createDocumentFragment();
+
+    for (let i = 0; i < 140; i++) {
+      const s = document.createElement('i');
+      s.className = 'star';
+
+      const size = (Math.random() * 2 + 1).toFixed(2); // 1px – 3px
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+      s.style.top = (Math.random() * 100).toFixed(2) + 'vh';
+      s.style.animationDuration = (2 + Math.random() * 3).toFixed(2) + 's';
+      s.style.animationDelay = (Math.random() * 3).toFixed(2) + 's';
+
+      frag.appendChild(s);
+    }
+    sky.appendChild(frag);
+  })();
+
+  /* ---------- Tạo 100 biểu tượng 🌷 bay cùng lúc ---------- */
+  (function createLanterns() {
+    const box = document.getElementById('lanterns');
+    const TOTAL = 100;
+    const frag = document.createDocumentFragment();
+
+    for (let i = 0; i < TOTAL; i++) {
+      const el = document.createElement('div');
+      el.className = 'lantern';
+
+      const span = document.createElement('span');
+      span.textContent = '🌷';
+      el.appendChild(span);
+
+      const size = 14 + Math.random() * 26;          // 14px – 40px
+      const duration = 9 + Math.random() * 11;       // 9s – 20s
+      const drift = (Math.random() * 2 - 1) * 90;    // lệch ngang ±90px
+      const rotate = (Math.random() * 2 - 1) * 60;   // xoay ±60deg
+
+      el.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+      el.style.fontSize = size.toFixed(1) + 'px';
+      el.style.setProperty('--dx', drift.toFixed(1) + 'px');
+      el.style.setProperty('--rot', rotate.toFixed(1) + 'deg');
+      el.style.animationDuration = duration.toFixed(2) + 's';
+      el.style.animationDelay = '0s';                // tất cả bay cùng 1 lúc
+
+      // Nhịp nhấp nháy riêng cho từng bông hoa
+      span.style.animationDuration = (1.2 + Math.random() * 1.8).toFixed(2) + 's';
+      span.style.animationDelay = (Math.random() * 2).toFixed(2) + 's';
+
+      frag.appendChild(el);
+    }
+    box.appendChild(frag);
+  })();
+</script>
+</body>
+</html>
