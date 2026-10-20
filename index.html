@@ -14,7 +14,8 @@
   }
 
   body {
-    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, "PingFang SC",
+                 "Microsoft YaHei", "Noto Sans SC", sans-serif;
     background: radial-gradient(circle at 50% 115%, #2b1a3d 0%, #140f26 45%, #05060f 100%);
     position: relative;
   }
@@ -56,19 +57,22 @@
   }
   .lantern span {
     display: inline-block;
-    animation: glowLantern 2s ease-in-out infinite alternate;
+    animation-name: glowLantern, swayLantern;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+    animation-direction: alternate, alternate;
   }
   @keyframes flyUp {
-    0% {
-      transform: translate3d(0, 0, 0) rotate(0deg);
-    }
-    100% {
-      transform: translate3d(var(--dx, 0px), -125vh, 0) rotate(var(--rot, 0deg));
-    }
+    0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
+    100% { transform: translate3d(var(--dx, 0px), -125vh, 0) rotate(var(--rot, 0deg)); }
   }
   @keyframes glowLantern {
-    from { opacity: .45; filter: drop-shadow(0 0 3px rgba(255, 120, 170, .85)); }
-    to   { opacity: 1;   filter: drop-shadow(0 0 14px rgba(255, 215, 120, 1)); }
+    from { opacity: .35; filter: drop-shadow(0 0 3px rgba(255, 120, 170, .8)); }
+    to   { opacity: 1;   filter: drop-shadow(0 0 16px rgba(255, 215, 120, 1)); }
+  }
+  @keyframes swayLantern {
+    from { transform: translateX(-7px) scale(.94); }
+    to   { transform: translateX(7px)  scale(1.06); }
   }
 
   /* ================= LỚP CHỮ CHẠY ================= */
@@ -78,10 +82,10 @@
     right: 0;
     top: 100%;
     z-index: 3;
-    padding: 0 6vw 40px;
+    padding: 0 7vw 60px;
     text-align: center;
     pointer-events: none;
-    animation: rise 26s linear infinite;
+    animation: rise 70s linear infinite; /* chậm hơn vì văn bản dài hơn */
   }
   @keyframes rise {
     from { transform: translateY(0); }
@@ -111,36 +115,72 @@
     letter-spacing: .16em;
     color: #ffd97a;
     text-shadow: 0 0 18px rgba(255, 190, 80, .75);
-    margin-bottom: 28px;
+    margin-bottom: 30px;
   }
   .textTrack h2.end {
-    margin-top: 26px;
-    margin-bottom: 60px;
+    margin-top: 34px;
+    margin-bottom: 40px;
     color: #ffb3cd;
     text-shadow: 0 0 18px rgba(255, 120, 170, .8);
   }
 
   .textTrack p {
-    max-width: 900px;
-    margin: 0 auto 20px;
-    font-size: clamp(15px, 2.6vw, 22px);
-    line-height: 1.75;
+    max-width: 940px;
+    margin: 0 auto 22px;
+    font-size: clamp(15px, 2.5vw, 21px);
+    line-height: 1.85;
     color: rgba(255, 255, 255, .88);
     text-shadow: 0 0 14px rgba(160, 180, 255, .45);
   }
   .textTrack p.big {
-    font-size: clamp(17px, 3vw, 26px);
-    font-weight: 600;
+    font-size: clamp(18px, 3.1vw, 27px);
+    font-weight: 700;
     color: #fff;
+    line-height: 1.6;
   }
   .textTrack p.quote {
     font-style: italic;
     color: #ffc4dc;
     text-shadow: 0 0 14px rgba(255, 120, 170, .6);
   }
-  .textTrack p.cn {
+  .textTrack .divider {
+    width: 90px;
+    height: 2px;
+    margin: 30px auto;
+    background: linear-gradient(90deg, transparent, #ffd97a, transparent);
+    border-radius: 2px;
+  }
+
+  /* ===== PHẦN TIẾNG TRUNG ===== */
+  .textTrack .cnBlock {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 26px 26px 30px;
+    border: 1px solid rgba(255, 217, 122, .35);
+    border-radius: 18px;
+    background: rgba(255, 200, 120, .05);
+    box-shadow: 0 0 30px rgba(255, 180, 90, .12) inset;
+  }
+  .textTrack .cnTitle {
+    font-size: clamp(22px, 4.4vw, 38px);
+    font-weight: 900;
+    letter-spacing: .18em;
+    color: #ffd97a;
+    text-shadow: 0 0 22px rgba(255, 190, 80, .85);
+    margin-bottom: 20px;
+  }
+  .textTrack .cnText {
+    font-size: clamp(15px, 2.6vw, 22px);
+    line-height: 2;
+    letter-spacing: .06em;
     color: #ffe3b0;
-    letter-spacing: .04em;
+    text-shadow: 0 0 14px rgba(255, 200, 120, .55);
+    margin-bottom: 14px;
+  }
+  .textTrack .cnText:last-child {
+    margin-bottom: 0;
+    color: #ffc4dc;
+    text-shadow: 0 0 14px rgba(255, 120, 170, .6);
   }
 </style>
 </head>
@@ -149,7 +189,7 @@
   <!-- Nền sao lấp lánh -->
   <div class="stars" id="stars"></div>
 
-  <!-- 100 bông hoa tulip bay như đèn hoa đăng -->
+  <!-- Hoa tulip bay liên tục, lệch nhịp như sao -->
   <div class="lanterns" id="lanterns"></div>
 
   <!-- Chữ chạy từ dưới lên -->
@@ -157,26 +197,48 @@
     <h1>20 · 11</h1>
     <h2>CHÚC MỪNG NGÀY NHÀ GIÁO VIỆT NAM</h2>
 
-    <p class="big">Kính chúc quý thầy cô luôn mạnh khỏe, hạnh phúc và tràn đầy nhiệt huyết!</p>
-    <p>Cảm ơn thầy cô đã thắp sáng những ước mơ và chắp cánh cho bao thế hệ bay cao, bay xa.</p>
+    <p class="big">Kính chúc quý thầy cô luôn mạnh khỏe, bình an và tràn đầy nhiệt huyết với nghề!</p>
+
+    <p>Cảm ơn thầy cô đã thắp sáng những ước mơ, đã kiên nhẫn dìu dắt bao thế hệ học trò từ những bước đi đầu tiên còn chập chững, cho đến khi các em đủ tự tin bay cao, bay xa giữa bầu trời rộng lớn.</p>
+
+    <p>Mỗi bài giảng của thầy cô không chỉ là kiến thức, mà còn là bài học về lòng nhân ái, về sự kiên trì, về cách đứng dậy sau mỗi lần vấp ngã. Những điều giản dị ấy đã theo chúng em suốt cuộc đời.</p>
+
     <p class="quote">“Uống nước nhớ nguồn – Ăn quả nhớ kẻ trồng cây”</p>
-    <p>Một bông hoa, một lời chúc, một tấm lòng biết ơn gửi đến thầy cô 🌷</p>
-    <p class="cn">老师，您辛苦了！祝您教师节快乐 ❤️</p>
+
+    <p>Có những người thầy, người cô lặng lẽ như ánh đèn khuya nơi góc phố — không rực rỡ, không ồn ào, nhưng luôn đủ sáng để soi đường cho những đứa trò nhỏ đi qua đêm tối của sự hoang mang và thiếu tự tin.</p>
+
+    <p>Hôm nay, chúng em chỉ có thể gửi đến thầy cô một bông hoa, một lời chúc, và một tấm lòng biết ơn chân thành nhất 🌷 Mong thầy cô luôn giữ được ngọn lửa yêu nghề, để mỗi ngày đến trường vẫn là một ngày vui, mỗi tiết học vẫn là một niềm háo hức.</p>
+
+    <div class="divider"></div>
+
+    <!-- ===== ĐOẠN TIẾNG TRUNG ===== -->
+    <div class="cnBlock">
+      <p class="cnTitle">教师节快乐 · 20/11</p>
+      <p class="cnText">敬爱的老师，您辛苦了！</p>
+      <p class="cnText">感谢您用知识的明灯，照亮我们前行的道路；感谢您用耐心的双手，牵引我们走过迷茫的时光。</p>
+      <p class="cnText">您像夜晚的星光，默默闪耀，却永远为我们指引方向。</p>
+      <p class="cnText">祝愿您身体健康，万事如意，桃李满天下，春晖遍四方！</p>
+      <p class="cnText">老师，谢谢您 ❤️ 祝您教师节快乐！</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="big">Chúc mừng Ngày Nhà giáo Việt Nam 20/11!</p>
 
     <h2 class="end">HAPPY TEACHER'S DAY 20/11</h2>
   </div>
 
 <script>
-  /* ---------- Tạo 140 ngôi sao nền ---------- */
+  /* ---------- Tạo 160 ngôi sao nền ---------- */
   (function createStars() {
     const sky = document.getElementById('stars');
     const frag = document.createDocumentFragment();
 
-    for (let i = 0; i < 140; i++) {
+    for (let i = 0; i < 160; i++) {
       const s = document.createElement('i');
       s.className = 'star';
 
-      const size = (Math.random() * 2 + 1).toFixed(2); // 1px – 3px
+      const size = (Math.random() * 2 + 1).toFixed(2);
       s.style.width = size + 'px';
       s.style.height = size + 'px';
       s.style.left = (Math.random() * 100).toFixed(2) + 'vw';
@@ -189,7 +251,7 @@
     sky.appendChild(frag);
   })();
 
-  /* ---------- Tạo 100 biểu tượng 🌷 bay cùng lúc ---------- */
+  /* ---------- 100 bông hoa bay LIÊN TỤC, LỆCH NHỊP như sao ---------- */
   (function createLanterns() {
     const box = document.getElementById('lanterns');
     const TOTAL = 100;
@@ -203,21 +265,25 @@
       span.textContent = '🌷';
       el.appendChild(span);
 
-      const size = 14 + Math.random() * 26;          // 14px – 40px
-      const duration = 9 + Math.random() * 11;       // 9s – 20s
-      const drift = (Math.random() * 2 - 1) * 90;    // lệch ngang ±90px
-      const rotate = (Math.random() * 2 - 1) * 60;   // xoay ±60deg
+      const size     = 14 + Math.random() * 26;
+      const duration = 10 + Math.random() * 14;
+      const delay    = -(Math.random() * duration);
+      const drift    = (Math.random() * 2 - 1) * 110;
+      const rotate   = (Math.random() * 2 - 1) * 70;
 
       el.style.left = (Math.random() * 100).toFixed(2) + 'vw';
       el.style.fontSize = size.toFixed(1) + 'px';
       el.style.setProperty('--dx', drift.toFixed(1) + 'px');
       el.style.setProperty('--rot', rotate.toFixed(1) + 'deg');
       el.style.animationDuration = duration.toFixed(2) + 's';
-      el.style.animationDelay = '0s';                // tất cả bay cùng 1 lúc
+      el.style.animationDelay = delay.toFixed(2) + 's';
 
-      // Nhịp nhấp nháy riêng cho từng bông hoa
-      span.style.animationDuration = (1.2 + Math.random() * 1.8).toFixed(2) + 's';
-      span.style.animationDelay = (Math.random() * 2).toFixed(2) + 's';
+      span.style.animationDuration =
+        (1.2 + Math.random() * 1.8).toFixed(2) + 's, ' +
+        (1.6 + Math.random() * 2.2).toFixed(2) + 's';
+      span.style.animationDelay =
+        (Math.random() * 2).toFixed(2) + 's, ' +
+        (Math.random() * 2).toFixed(2) + 's';
 
       frag.appendChild(el);
     }
